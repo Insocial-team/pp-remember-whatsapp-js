@@ -1,19 +1,15 @@
-const pingPongCommandHandler = require('./pingpong/pingpong-commands.js');
+const COMMANDS = require('./commands.js');
 
 const COMMAND_SLASH = '/';
-
-const COMMANDS = {
-    'ping': pingPongCommandHandler,
-}
+const COMMAND_PREFIX = 'pp';
 
 module.exports = commandHandler = (message) => {
-    if (message.body[0] != COMMAND_SLASH) return;
+    if (message.body[0] != COMMAND_SLASH || message.body.slice(1, COMMAND_PREFIX.length + 1) != COMMAND_PREFIX) return;
 
-    const commandSplitted = message.body.replace(COMMAND_SLASH, '').split(' ');
-    const command = commandSplitted[0];
+    const command = message.body.split(' ')[1];
 
     if (!COMMANDS.hasOwnProperty(command)) {
-        message.reply(`The command "${COMMAND_SLASH + command}" does not exist`);
+        message.reply(`The command "${COMMAND_SLASH + COMMAND_PREFIX + ' ' + command}" does not exist`);
         return;
     }
 
