@@ -12,6 +12,10 @@ module.exports = commandHandler = (message) => {
     const commandSplitted = message.body.replace(COMMAND_SLASH, '').split(' ');
     const command = commandSplitted[0];
 
-    if (!command in COMMANDS) message.reply(`El comando [${COMMAND_SLASH + command}] no existe, por ahora`);
+    if (!COMMANDS.hasOwnProperty(command)) {
+        message.reply(`The command "${COMMAND_SLASH + command}" does not exist`);
+        return;
+    }
+
     COMMANDS[command](message);
 }
